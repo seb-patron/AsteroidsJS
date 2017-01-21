@@ -28,9 +28,7 @@ function keyup(event) {
     state.pressedKeys[key] = false
 }
 
-// window.addEventListener("keydown", (e) => {if (e.pressedKeys == 68)  state.x += progress });
-// window.addEventListener("keydown", (e) => {if (e.pressedKeys == 65)  state.x -= progress });
-// window.addEventListener("keyup", keyup, false)
+
 
 window.addEventListener("keydown", keydown, false);
 window.addEventListener("keyup", keyup, false);
@@ -61,12 +59,12 @@ let state = {
 function update(progress) {
     const p = progress / 16;
 
-    updateRotation(p);
-    updateMovement(p);
-    updatePosition(p);
+    updateShipRotation(p);
+    updateShipMovement(p);
+    updateShipPosition(p);
 }
 
-function updateRotation(p) {
+function updateShipRotation(p) {
     if (state.pressedKeys.left) {
         state.rotation -= p * 5;
     }
@@ -75,12 +73,13 @@ function updateRotation(p) {
     }
 }
 
-function updateMovement(p) {
+function updateShipMovement(p) {
     let accelerationVector =  {
         x: p * .3 * Math.cos((state.rotation - 90) * (Math.PI / 180)),
         y: p * .3 * Math.sin((state.rotation - 90) * (Math.PI / 180))
     }
 
+    //Stoke's Law
     if (state.pressedKeys.up) {
         state.movement.x += accelerationVector.x;
         state.movement.y += accelerationVector.y;
@@ -106,7 +105,7 @@ function updateMovement(p) {
     }
 }
 
-function updatePosition(p) {
+function updateShipPosition(p) {
     state.position.x += state.movement.x;
     state.position.y += state.movement.y;
 
