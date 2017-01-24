@@ -70,6 +70,8 @@ let asteroid = {
   rotation: 0
 }
 
+const asteroidArray = [];
+
 function update(progress) {
     const p = progress / 16;
     updateAsteroid(p);
@@ -80,6 +82,8 @@ function update(progress) {
 }
 
 function updateAsteroid(p) {
+    asteroid.rotation += p*5;
+
     asteroid.position.x += asteroid.movement.x;
     asteroid.position.y += asteroid.movement.y;
     if ( asteroid.position.x > canvas.width)  asteroid.position.x -= canvas.width;
@@ -147,6 +151,15 @@ function updateShipPosition(p) {
     }
 }
 
+function checkCollisions() {
+    //checks to see if ship is inside asteroid positions
+    if (state.position.x > asteroid.position.x && state.position.x < asteroid.position.x + 50) {
+        if (state.position.y > asteroid.position.y && state.position.y < asteroid.position.y + 50) {
+            console.log("game over");
+        }
+    }
+}
+
 
 function drawShip() {
     ctx.clearRect(0, 0, width, height)
@@ -170,7 +183,8 @@ function drawShip() {
 
 function drawAsteroid() {
     //ctx.fillRect(asteroid.position.x, asteroid.position.y, 50, 50);
-   
+    //ctx.translate(asteroid.position.x, asteroid.position.y);
+    //ctx.rotate((Math.PI/180) * asteroid.rotation);
     ctx.fillRect(asteroid.position.x, asteroid.position.y, 50, 50);
     ctx.fillStyle = "white";
     ctx.clearRect(asteroid.position.x + 2, asteroid.position.y + 2, 46, 46);
@@ -180,6 +194,7 @@ function loop(timestamp) {
     let progress = timestamp - lastrender;
 
     update(progress);
+    checkCollisions();
     drawShip();
     drawAsteroid();
 
