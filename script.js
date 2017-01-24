@@ -1,5 +1,5 @@
 let lastrender = 0;
-//window.requestAnimationFrame(draw);
+window.requestAnimationFrame(loop);
 const width =  800;
 const height = window.innerHeight || 800;
 const asteroidWidth = 10;
@@ -17,8 +17,8 @@ let asteroid = {
   },
   
   movement: {
-    x: 3,
-    y: 5
+    x: 1,
+    y: 1
   },
 
   rotation: 0
@@ -26,17 +26,25 @@ let asteroid = {
 
 function draw() {
   ctx.save();
+
+    
+  ctx.rotate((Math.PI/180) * asteroid.rotation);
+  //ctx.translate(asteroid.position.x, asteroid.position.y);
+
+
   ctx.fillRect(asteroid.position.x, asteroid.position.y, 50, 50);
-  ctx.beginPath();
-  for (let i = 0; i < points.length; i += 2 ) {
-    if (i == 0) {
-      ctx.moveTo(points[i] + 50, points[i+1]+ 50);
-      console.log("move to line");
-    } else {
-      ctx.lineTo(points[i]  + 50, points[i+1] + 50);
-    }
-  }
-  ctx.stroke();
+
+  // ctx.beginPath();
+  // for (let i = 0; i < points.length; i += 2 ) {
+  //   if (i == 0) {
+  //     ctx.moveTo(points[i] + 50, points[i+1]+ 50);
+  //     console.log("move to line");
+  //   } else {
+  //     ctx.lineTo(points[i]  + 50, points[i+1] + 50);
+  //   }
+  // }
+  // ctx.stroke();
+  ctx.restore();
 }
 
 function move() {
@@ -58,11 +66,12 @@ function loop(timestamp) {
 
     //update(progress);
     ctx.clearRect(0,0, width, height);
-    asteroid.rotation += (progress/16) *5;
-    ctx.rotate((Math.PI/180) * asteroid.rotation);
-    console.log(asteroid.rotation);
+    // ctx.rotate((Math.PI/180) * asteroid.rotation);
+   
     draw();
     move();
+    asteroid.rotation += 1;
+     console.log((Math.PI/180) * asteroid.rotation);
 
     lastrender = timestamp;
     window.requestAnimationFrame(loop);
