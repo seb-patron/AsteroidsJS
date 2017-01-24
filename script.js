@@ -33,6 +33,7 @@ function draw() {
 
 
   ctx.fillRect(asteroid.position.x, asteroid.position.y, 50, 50);
+      ctx.clearRect(asteroid.position.x + 5, asteroid.position.y + 5, 40, 40);
 
   // ctx.beginPath();
   // for (let i = 0; i < points.length; i += 2 ) {

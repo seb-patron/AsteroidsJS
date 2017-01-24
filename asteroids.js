@@ -56,12 +56,34 @@ let state = {
     }
 }
 
+let asteroid = {
+  position: {
+    x: 400,
+    y: 400
+  },
+  
+  movement: {
+    x: 1,
+    y: 1
+  },
+
+  rotation: 0
+}
+
 function update(progress) {
     const p = progress / 16;
+    updateAsteroid(p);
 
     updateShipRotation(p);
     updateShipMovement(p);
     updateShipPosition(p);
+}
+
+function updateAsteroid(p) {
+    asteroid.position.x += asteroid.movement.x;
+    asteroid.position.y += asteroid.movement.y;
+    if ( asteroid.position.x > canvas.width)  asteroid.position.x -= canvas.width;
+    if ( asteroid.position.y > canvas.height)  asteroid.position.y -= canvas.height;
 }
 
 function updateShipRotation(p) {
@@ -146,11 +168,20 @@ function drawShip() {
     ctx.restore();
 }
 
+function drawAsteroid() {
+    //ctx.fillRect(asteroid.position.x, asteroid.position.y, 50, 50);
+   
+    ctx.fillRect(asteroid.position.x, asteroid.position.y, 50, 50);
+    ctx.fillStyle = "white";
+    ctx.clearRect(asteroid.position.x + 2, asteroid.position.y + 2, 46, 46);
+}
+
 function loop(timestamp) {
     let progress = timestamp - lastrender;
 
     update(progress);
     drawShip();
+    drawAsteroid();
 
     lastrender = timestamp;
     window.requestAnimationFrame(loop);
